@@ -1,53 +1,70 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-// import InputArea from './InputArea';
 
 function FleetInputArea(props){
 
+    const handleTextChange=(e)=>{
+        const {name, value} = e.target;
+        props.setInputText({...props.inputText, [name]: value})
+    }
+
+    const handleDateChange=(e)=>{
+        const date = new Date(e.target.value);
+        const formattedDate = date.toISOString().substr(0,10);
+        const newUserInput = {...props.inputText, dateOfRequest:formattedDate};
+        props.setInputText(newUserInput);
+    }
 
 
     return (
-        <>
             <form>
                 <input type="text"
                 name="nameOfRequester"
                 placeholder="Name of Requester"
-                value={props.inputText.nameOfRequester} />
+                value={props.inputText.nameOfRequester} 
+                onChange={handleTextChange}
+                />
 
                 <input type="text"
                 name="position"
                 placeholder="Position"
-                value={props.inputText.position} />
+                value={props.inputText.position}
+                onChange={handleTextChange}
+                />
 
                 <input type="text"
                 name="plateNumber"
                 placeholder="Plate Number"
-                value={props.inputText.plateNumber} />
+                value={props.inputText.plateNumber} 
+                onChange={handleTextChange}
+                />
 
-                <select id="vehicleType" value={props.inputText.vehicleType} name="vehicleType">
+                <input 
+                value={props.inputText.dateOfRequest}
+                type="date"
+                name="dateOfRequest"
+                id="dateOfRequest"
+                placeholder="Date of Request"
+                onChange={handleDateChange}
+                readOnly
+                />
+
+                <select id="vehicleType" name="vehicleType" value={props.inputText.vehicleType}>
                     <option value="hondaCivic">Honda Civic</option>
                     <option value="toyotaPrado">Toyota Prado</option>
                     <option value="chevroletTrailblazer">Chevrolet Trailblazer</option>
                 </select>
-
-                <input type="date"
-                name="dateOfRequest"
-                placeholder="Date of Request"
-                value={props.inputText.plateNumber} />
-                
                 <button>Submit</button>
-                
-            </form>
-    </>);
+            </form>);
 }
 
-FleetInputArea.propTypes={
+FleetInputArea.propTypes = {
     inputText: PropTypes.shape({
         nameOfRequester: PropTypes.string,
         position: PropTypes.string,
         plateNumber: PropTypes.string,
-        vehicleType: PropTypes.string,
-        dateOfRequest: PropTypes.string
+        dateOfRequest: PropTypes.string,
+        vehicleType: PropTypes.string
     }),
     setInputText: PropTypes.func
 }
@@ -55,49 +72,14 @@ FleetInputArea.propTypes={
 const date = new Date();
 const formattedDate = date.toISOString().substr(0, 10);
 
-
-FleetInputArea.defaultProps={
-    inputText:{
+FleetInputArea.defaultProps = {
+    inputText: {
         nameOfRequester:"",
         position:"",
         plateNumber:"",
-        vehicleType:"",
-        dateOfRequest: formattedDate
+        dateOfRequest: formattedDate,
+        vehicleType:""      
     }
 }
-
-    // return <div className="form">
-    //     <InputArea type="text"
-    //         name="nameOfRequester"
-    //         placeholder="Name of Requester"
-    //         value={inputText.nameOfRequester}
-           
-    //         onChange={handleChange}
-    //     />
-    //    <InputArea type="text"
-    //         placeholder="Position"
-    //         value={inputText.position}
-    //         name="position"
-    //         onChange={handleChange}
-    //     />
-    //     <InputArea type="text"
-    //         placeholder="Vehicle Plate #"
-    //         value={inputText.plateNumber}
-    //         name="plateNumber"
-    //         onChange={handleChange}
-    //         />
-    //     <InputArea type="dropdown"
-    //         placeholder="Vehicle Type"
-    //         value={inputText.vehicleType}
-    //         name="vehicleType"
-    //         onChange={handleChange}
-    //     />
-    //     <InputArea
-    //         type="date"
-    //         onChange={handleChange}
-    //         value={inputText.dateRequested.toLocaleDateString()}
-    //         readOnly={true} />    
-    //     <button onClick={handleClick}>Proceed</button>
-    // </div>
 
 export default FleetInputArea;

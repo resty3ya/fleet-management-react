@@ -7,11 +7,7 @@ import FleetTableArea from './components/FleetTableArea';
 
 function App() {
 
-  const [inputText, setInputText] = useState({nameOfRequester:"",
-  position:"",
-  plateNumber:"",
-  vehicleType:""
-})
+  const [inputText, setInputText] = useState();//should be walang naka initialize sa loob pra mag run yung new Date()
 
   const [vehicleList, setVehicleList] = useState([]);
 
